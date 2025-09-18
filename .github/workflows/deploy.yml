@@ -45,10 +45,11 @@ jobs:
         uses: webfactory/ssh-agent@v0.8.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
+    
       - name: Deploy to server via SSH
         run: |
           ssh -o StrictHostKeyChecking=no ${VM_SSH_USER}@${VM_SSH_HOST} "
+            echo $DOCKERHUB_TOKEN | docker login -u $DOCKERHUB_USERNAME --password-stdin &&
             cd ${DEPLOY_PATH} &&
             docker compose pull &&
             docker compose up -d --remove-orphans
@@ -57,3 +58,5 @@ jobs:
           VM_SSH_USER: ${{ vars.VM_SSH_USER }}
           VM_SSH_HOST: ${{ vars.VM_SSH_HOST }}
           DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
+          DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
