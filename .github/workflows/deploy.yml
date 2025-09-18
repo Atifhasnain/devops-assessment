@@ -56,5 +56,6 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ vars.VM_SSH_USER }}@${{ vars.VM_SSH_HOST }} "
             cd ${{ vars.DEPLOY_PATH }} &&
-            touch test.txt
-            "
+            docker compose pull &&
+            docker compose up -d --remove-orphans
+          "
