@@ -38,20 +38,14 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-      - name: Install SSH client
-        run: sudo apt-get update && sudo apt-get install -y openssh-client
-
-      - name: Setup SSH key
-        uses: webfactory/ssh-agent@v0.8.1
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
       - name: Deploy to server via SSH
-        env:
-          VM_SSH_USER: ${{ vars.VM_SSH_USER }}
-          VM_SSH_HOST: ${{ vars.VM_SSH_HOST }}
-          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
-        run: |
-          ssh -o StrictHostKeyChecking=no $VM_SSH_USER@$VM_SSH_HOST \
-            "cd $DEPLOY_PATH && docker compose pull && docker compose up -d --remove-orphans"
-
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ vars.VM_SSH_HOST }}
+          username: ${{ vars.VM_SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ vars.VM_SSH_PORT }}
+          script: |
+            cd ${{ vars.DEPLOY_PATH }}
+            docker compose pull
+            docker compose up -d --remove-orphans
