@@ -1,0 +1,51 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node / PHP / Python / general environment files
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+.env.*
+
+# Docker files and build artifacts
+docker/*.log
+docker-compose.override.yml
+docker/tmp/
+*.pid
+
+# Application builds
+app/dist/
+app/build/
+
+# CI/CD pipeline
+ci-cd/*.log
+
+# Monitoring / Logging persistent data
+monitoring/grafana/data/
+monitoring/prometheus/data/
+logging/loki-data/
+logging/loki/wal/
+logging/loki/index/
+logging/loki/chunks/
+logging/promtail/positions.yaml
+
+# Reverse proxy / SSL
+reverse-proxy/certs/
+reverse-proxy/*.key
+reverse-proxy/*.crt
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Backup / temp files
+*.bak
+*.swp
+*~
+
